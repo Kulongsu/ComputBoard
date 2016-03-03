@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
-	"time"
+	"unicode/utf8"
 )
 
 func main() {
@@ -28,7 +28,6 @@ xyz
 ---
 `
 
-	bufio.ScanWords()
 	split := func(data []byte, atEOF bool) (advance int, token []byte, err error) {
 		fmt.Printf("%t\t%d\t%s\n", atEOF, len(data), data)
 		if atEOF {
@@ -40,7 +39,7 @@ xyz
 		for width := 0; start < len(data); start += width {
 			var r rune
 			r, width = utf8.DecodeRune(data[start:])
-			if r == "-" {
+			if string(r) == "-" {
 				break
 			}
 		}
